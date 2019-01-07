@@ -1,0 +1,13 @@
+version: '2'
+services:
+  webserver:
+    build: ./docker/webserver
+    container_name: nscrawl
+    ports:
+    - "81:80"
+    - "434:433"
+    environment:
+      SITE_EDITION: "docker"
+    volumes:
+    - .:/var/www/nscrawl
+    - ./docker/webserver/conf/sites-enabled/000-default.conf:/etc/apache2/sites-enabled/000-default.conf
