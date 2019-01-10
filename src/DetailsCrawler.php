@@ -90,6 +90,12 @@ class DetailsCrawler {
                     $details->setUknjizen($moreDetailsInfo['Uknjiženo']);
                 if (isset($moreDetailsInfo['Godina izgradnje']))
                     $details->setGodGradnje($moreDetailsInfo['Godina izgradnje']);
+                if (isset($moreDetailsInfo['Prizemlje']))
+                    $details->setPrizemlje($moreDetailsInfo['Prizemlje']);
+                if (isset($moreDetailsInfo['Type of user']))
+                    $details->setTypeOfUser($moreDetailsInfo['Type of user']);
+                if (isset($moreDetailsInfo['Tip stavke']))
+                    $details->setTipStavke($moreDetailsInfo['Tip stavke']);
                 if (isset($moreDetailsInfo['Opremljenost objekta'])) {
                     if (preg_match('/terasa/i', $moreDetailsInfo['Opremljenost objekta']))
                         $details->setTerasaLodja('Terasa');

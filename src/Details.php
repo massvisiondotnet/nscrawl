@@ -22,6 +22,9 @@ class Details {
     private $ID = '';
     private $datum = '';
     private $azurirano = '';
+    private $prizemlje = '';
+    private $type_of_user = '';
+    private $tip_stavke = '';
 
     public function toCsvHeader() {
         return implode(',', array(
@@ -44,6 +47,9 @@ class Details {
             'telefon2',
             'ID',
             'datum',
+            'prizemlje',
+            'type_of_user',
+            'tip_stavke',
             //'azurirano',
         ));
     }
@@ -69,6 +75,9 @@ class Details {
             $this->packToCsv($this->telefon2),
             $this->packToCsv($this->ID),
             $this->packToCsv($this->datum),
+            $this->packToCsv($this->prizemlje),
+            $this->packToCsv($this->type_of_user),
+            $this->packToCsv($this->tip_stavke),
             //$this->packToCsv($this->azurirano),
         ));
     }
@@ -370,6 +379,48 @@ class Details {
      */
     public function setLink($link) {
         $this->link = $link;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPrizemlje() {
+        return $this->prizemlje;
+    }
+
+    /**
+     * @param string $prizemlje
+     */
+    public function setPrizemlje($prizemlje) {
+        $this->prizemlje = $prizemlje;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTypeOfUser() {
+        return $this->type_of_user;
+    }
+
+    /**
+     * @param string $type_of_user
+     */
+    public function setTypeOfUser($type_of_user) {
+        $this->type_of_user = $type_of_user;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTipStavke() {
+        return $this->tip_stavke;
+    }
+
+    /**
+     * @param string $tip_stavke
+     */
+    public function setTipStavke($tip_stavke) {
+        $this->tip_stavke = $tip_stavke;
     }
 
 }
