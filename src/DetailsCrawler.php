@@ -3,13 +3,17 @@
 require_once __DIR__ . '/Details.php';
 require_once __DIR__ . '/XmlParser.php';
 require_once __DIR__ . '/Stats.php';
+require_once __DIR__ . '/Phones.php';
 
 class DetailsCrawler {
     /** @var XmlParser */
     private $parser;
+    /** @var Phones */
+    private $phones;
 
     public function __construct() {
         $this->parser = new XmlParser();
+        $this->phones = Phones::getInstance();
     }
 
     public function getDetails($link) {
@@ -112,12 +116,22 @@ class DetailsCrawler {
             list($trash, $priceBox) = preg_split('/Cena\simovine/', $priceBox);
             list($priceBox, $trash) = preg_split('/<\/span>/', $priceBox);
             $details->setCena(trim(strip_tags($priceBox)));
-            if (preg_match('/"\/form\/show-phone-number\/([^"]*)"/', $rest, $matches)) {
+            if (preg_match('/"\/form\/show-phone-number\/phone\/([^"]*)"/', $rest, $matches)) {
+                $id = trim($matches[1]);
+                if (preg_match('/\d+/', $id)) {
+                    @list($phone1, $phone2) = $this->phones->getById($id);
+                    if ($phone1)
+                        $details->setTelefon1($phone1);
+                    if ($phone2)
+                        $details->setTelefon2($phone1);
+                }
+                /*
                 @list($phone1, $phone2) = explode(',', $matches[1], 2);
                 if (isset($phone1))
                     $details->setTelefon1(trim($phone1));
                 if (isset($phone2))
                     $details->setTelefon2(trim($phone2));
+                */
             }
         }
         //print_r($details); die;
