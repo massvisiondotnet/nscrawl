@@ -33,6 +33,8 @@ class Phones {
         );
         $arr = json_decode($result, true);
         if ($arr && isset($arr['phone']) && is_array($arr['phone']) && count($arr['phone']) > 0) {
+            $phone1 = trim($arr['phone'][0]);
+            /*
             $phones = $arr['phone'][0];
             @list($phone1, $phone2) = preg_split('/\s+/', trim($phones));
             if ($phone1)
@@ -40,6 +42,7 @@ class Phones {
             if ($phone2)
                 $phone2 = trim($phone2);
             //echo(sprintf("phone1: %s, phone2: %s\n", $phone1, $phone2));
+            */
         }
         return array($phone1, $phone2);
     }
