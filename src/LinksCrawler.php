@@ -25,8 +25,8 @@ class LinksCrawler {
         $t = microtime(true);
         $html = file_get_contents(
             sprintf(
-                'https://www.nekretnine.rs/' .
-                'stambeni-objekti/stanovi/izdavanje-prodaja/prodaja/grad/beograd/lista/po_stranici/10/stranica/%d',
+                'https://www.nekretnine.rs/stambeni-objekti/stanovi/izdavanje-prodaja/'.
+                'prodaja/grad/beograd/lista/po_stranici/10/stranica/%d?order=6',
                 $pageNr
             )
         );
