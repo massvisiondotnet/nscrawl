@@ -26,6 +26,16 @@ class Stats {
 
     public function incDetailsPagesCount() {
         $this->detailsPagesCount++;
+        if (!($this->detailsPagesCount % 100))
+            file_put_contents(
+                __DIR__ . '/../out/log',
+                sprintf(
+                    "%s - reading details, current count: %d\n",
+                    date('Y-m-d H:i:s'),
+                    $this->detailsPagesCount
+                ),
+                FILE_APPEND|LOCK_EX
+            );
     }
 
     public function getStats() {

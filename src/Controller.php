@@ -30,14 +30,15 @@ class Controller {
         $d = new DetailsCrawler();
         for ($i = 1; $i <= NUM_PAGES; $i++) {
             foreach ($l->getLinks($i) as $link) {
-                if (!isset($usedLinks[$link])) {
-                    $linkDetails = $d->getDetails($link);
-                    // $linkDetails = $d->getDetails('https://www.nekretnine.rs/stambeni-objekti/stanovi/1864311/stan-kod-metroa-uknjizen/');
-                    if ($linkDetails)
-                        $details[] = $linkDetails;
-                    $usedLinks[$link] = 1;
+                if (!in_array($link, $usedLinks)) {
+                    $usedLinks[] = $link;
                 }
             }
+        }
+        foreach ($usedLinks as $link) {
+            $linkDetails = $d->getDetails($link);
+            if ($linkDetails)
+                $details[] = $linkDetails;
         }
         if (count($details)) {
             $lines = array();
