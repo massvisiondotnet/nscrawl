@@ -32,6 +32,8 @@ class Controller {
             foreach ($l->getLinks($i) as $link) {
                 if (!in_array($link, $usedLinks)) {
                     $usedLinks[] = $link;
+                } else {
+                    Stats::getInstance()->incDuplicateLinksCount();
                 }
             }
         }

@@ -7,6 +7,7 @@ class Stats {
     private $totalTime = .0;
     private $overviewPagesCount = 0;
     private $detailsPagesCount = 0;
+    private $duplicateLinksCount = 0;
 
     public function addTimeDownloading($t) {
         $this->timeDownloading += $t;
@@ -22,6 +23,10 @@ class Stats {
 
     public function incOverviewPagesCount() {
         $this->overviewPagesCount++;
+    }
+
+    public function incDuplicateLinksCount() {
+        $this->duplicateLinksCount++;
     }
 
     public function incDetailsPagesCount() {
@@ -40,12 +45,13 @@ class Stats {
 
     public function getStats() {
         return sprintf(
-            "Done in %s\nTime downloading: %s\nTime parsing: %s\nLink pages: %d\nDetails pages: %d",
+            "Done in %s\nTime downloading: %s\nTime parsing: %s\nLink pages: %d\nDetails pages: %d\nDuplicate links: %d",
             number_format($this->totalTime, 2),
             number_format($this->timeDownloading, 2),
             number_format($this->timeParsing, 2),
             $this->overviewPagesCount,
-            $this->detailsPagesCount
+            $this->detailsPagesCount,
+            $this->duplicateLinksCount
         );
     }
 
