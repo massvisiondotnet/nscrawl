@@ -6,12 +6,13 @@ require_once __DIR__  . '/Stats.php';
 class LinksCrawler {
 
     private $xmlParser = null;
+    private $hasMore = false;
 
     public function __construct() {
         $this->xmlParser = new XmlParser();
     }
 
-    public function getLinks($pageNr) {
+    public function getLinks($link, $pageNr) {
         file_put_contents(
             __DIR__ . '/../out/log',
             sprintf(
@@ -23,13 +24,19 @@ class LinksCrawler {
         );
         $links = array();
         $t = microtime(true);
-        $html = file_get_contents(
-            sprintf(
-                'https://www.nekretnine.rs/stambeni-objekti/stanovi/izdavanje-prodaja/'.
-                'prodaja/grad/beograd/lista/po_stranici/10/stranica/%d?order=6',
-                $pageNr
-            )
-        );
+        $html = file_get_contents(sprintf($link, $pageNr));
+        $this->hasMore = preg_match('/Sledeća\sstrana/', $html);
+        if (!$this->hasMore) {
+            file_put_contents(
+                __DIR__ . '/../out/log',
+                sprintf(
+                    "%s - detected last page while reading: %d\n",
+                    date('Y-m-d H:i:s'),
+                    $pageNr
+                ),
+                FILE_APPEND|LOCK_EX
+            );
+        }
         Stats::getInstance()->addTimeDownloading(microtime(true) - $t);
         Stats::getInstance()->incOverviewPagesCount();
         $t = microtime(true);
@@ -56,6 +63,13 @@ class LinksCrawler {
         }
         Stats::getInstance()->addTimeParsing(microtime(true) - $t);
         return $links;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasMore() {
+        return $this->hasMore;
     }
 
     private function getHeaderLinks($html) {

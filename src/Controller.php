@@ -28,13 +28,23 @@ class Controller {
         $t = microtime(true);
         $l = new LinksCrawler();
         $d = new DetailsCrawler();
-        for ($i = 1; $i <= NUM_PAGES; $i++) {
-            foreach ($l->getLinks($i) as $link) {
-                if (!in_array($link, $usedLinks)) {
-                    $usedLinks[] = $link;
-                } else {
-                    Stats::getInstance()->incDuplicateLinksCount();
+        foreach (
+            array(
+                'https://www.nekretnine.rs/stambeni-objekti/stanovi/izdavanje-prodaja/prodaja/grad/beograd/cena/0_60000/lista/po_stranici/10/stranica/%d',
+                'https://www.nekretnine.rs/stambeni-objekti/stanovi/izdavanje-prodaja/prodaja/grad/beograd/cena/60000_110000/lista/po_stranici/10/stranica/%d',
+                'https://www.nekretnine.rs/stambeni-objekti/stanovi/izdavanje-prodaja/prodaja/grad/beograd/cena/110000_2500000/lista/po_stranici/10/stranica/%d',
+            ) as $linkPattern)
+        {
+            for ($i = 1; $i <= NUM_PAGES; $i++) {
+                foreach ($l->getLinks($linkPattern, $i) as $link) {
+                    if (!in_array($link, $usedLinks)) {
+                        $usedLinks[] = $link;
+                    } else {
+                        Stats::getInstance()->incDuplicateLinksCount();
+                    }
                 }
+                if (!$l->hasMore())
+                    break;
             }
         }
         foreach ($usedLinks as $link) {
