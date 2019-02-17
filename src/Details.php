@@ -23,8 +23,10 @@ class Details {
     private $datum = '';
     private $azurirano = '';
     private $prizemlje = '';
-    private $type_of_user = '';
+    //private $type_of_user = '';
+    private $vlasnistvo = '';
     private $tip_stavke = '';
+    private $broj_u_registru = '';
 
     public function toCsvHeader() {
         return implode(',', array(
@@ -48,9 +50,11 @@ class Details {
             'ID',
             'datum',
             'prizemlje',
-            'type_of_user',
+            //'type_of_user',
+            'vlasnistvo',
             'tip_stavke',
             //'azurirano',
+            'broj_u_registru',
         ));
     }
 
@@ -76,9 +80,10 @@ class Details {
             $this->packToCsv($this->ID),
             $this->packToCsv($this->datum),
             $this->packToCsv($this->prizemlje),
-            $this->packToCsv($this->type_of_user),
+            $this->packToCsv($this->vlasnistvo),
             $this->packToCsv($this->tip_stavke),
             //$this->packToCsv($this->azurirano),
+            $this->packToCsv($this->broj_u_registru),
         ));
     }
 
@@ -398,15 +403,15 @@ class Details {
     /**
      * @return string
      */
-    public function getTypeOfUser() {
-        return $this->type_of_user;
+    public function getVlasnistvo() {
+        return $this->vlasnistvo;
     }
 
     /**
-     * @param string $type_of_user
+     * @param string $vlasnistvo
      */
-    public function setTypeOfUser($type_of_user) {
-        $this->type_of_user = $type_of_user;
+    public function setVlasnistvo($vlasnistvo) {
+        $this->vlasnistvo = $vlasnistvo;
     }
 
     /**
@@ -421,6 +426,20 @@ class Details {
      */
     public function setTipStavke($tip_stavke) {
         $this->tip_stavke = $tip_stavke;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBrojURegistru() {
+        return $this->broj_u_registru;
+    }
+
+    /**
+     * @param string $broj_u_registru
+     */
+    public function setBrojURegistru($broj_u_registru) {
+        $this->broj_u_registru = $broj_u_registru;
     }
 
 }

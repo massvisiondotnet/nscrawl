@@ -2,13 +2,13 @@
 
 class Phones {
 
-    public function getById($id) {
-        if (!isset($this->phonesByIds[$id]))
-            $this->phonesByIds[$id] = $this->getPhones($id);
-        return $this->phonesByIds[$id];
+    public function getById($id, $isMobile=false) {
+        //if (!isset($this->phonesByIds[$id]))
+        //    $this->phonesByIds[$id] = $this->getPhones($id);
+        return $this->getPhones($id, $isMobile);
     }
 
-    private function getPhones($id) {
+    private function getPhones($id, $isMobile=false) {
         $phone1 = null;
         $phone2 = null;
         $postdata = http_build_query(
@@ -27,7 +27,7 @@ class Phones {
         $context  = stream_context_create($opts);
 
         $result = file_get_contents(
-            sprintf('https://www.nekretnine.rs/form/show-phone-number/phone/%s', $id),
+            sprintf('https://www.nekretnine.rs/form/show-phone-number/%s/%s', $isMobile ? 'mob' : 'phone', $id),
             false,
             $context
         );

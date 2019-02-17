@@ -31,6 +31,10 @@ class DetailsCrawler {
             //if (preg_match('/\/stanovi\/(\d+)\//', $link, $matches)) {
             //    $details->setID($matches[1]);
             //}
+
+            if (preg_match('/Broj\su\sRegistru\sposrednika:\s(\d+)/', $html, $matches))
+                $details->setBrojURegistru($matches[1]);
+
             $title = preg_replace('/<\/h1>.*/ms', '', $html);
             $details->setNaslov(trim($title));
             list($baseInfo, $rest) = preg_split('/<div\sclass="updated">/', $html);
@@ -55,6 +59,9 @@ class DetailsCrawler {
                     $details->setStruktura($detailsInfo['Kategorija']);
                 if (isset($detailsInfo['Kvadratura'])) {
                     if (preg_match('/^(\d+)/', $detailsInfo['Kvadratura'], $matches))
+                        $details->setKvadratura($matches[1]);
+                } else if (isset($detailsInfo['Površina zemljišta'])) {
+                    if (preg_match('/^(\d+)/', $detailsInfo['Površina zemljišta'], $matches))
                         $details->setKvadratura($matches[1]);
                 }
             }
@@ -96,8 +103,8 @@ class DetailsCrawler {
                     $details->setGodGradnje($moreDetailsInfo['Godina izgradnje']);
                 if (isset($moreDetailsInfo['Prizemlje']))
                     $details->setPrizemlje($moreDetailsInfo['Prizemlje']);
-                if (isset($moreDetailsInfo['Type of user']))
-                    $details->setTypeOfUser($moreDetailsInfo['Type of user']);
+                if (isset($moreDetailsInfo['Vlasništvo']))
+                    $details->setVlasnistvo($moreDetailsInfo['Vlasništvo']);
                 if (isset($moreDetailsInfo['Tip stavke']))
                     $details->setTipStavke($moreDetailsInfo['Tip stavke']);
                 if (isset($moreDetailsInfo['Opremljenost objekta'])) {
@@ -132,6 +139,15 @@ class DetailsCrawler {
                 if (isset($phone2))
                     $details->setTelefon2(trim($phone2));
                 */
+            }
+            if (preg_match('/"\/form\/show-phone-number\/mob\/([^"]*)"/', $rest, $matches)) {
+                $id = trim($matches[1]);
+                if (preg_match('/\d+/', $id)) {
+                    @list($phone1, $phone2) = $this->phones->getById($id, true);
+                    if ($phone1)
+                        $details->setTelefon2($phone1);
+
+                }
             }
         }
         //print_r($details); die;
