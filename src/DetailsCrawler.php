@@ -53,8 +53,8 @@ class DetailsCrawler {
                 }
                 if (isset($detailsInfo['Deo Grada']))
                     $details->setLokacija($detailsInfo['Deo Grada']);
-                if (isset($detailsInfo['Street']))
-                    $details->setAdresa($detailsInfo['Street']);
+                if (isset($detailsInfo['Ulica']))
+                    $details->setAdresa($detailsInfo['Ulica']);
                 if (isset($detailsInfo['Kategorija']))
                     $details->setStruktura($detailsInfo['Kategorija']);
                 if (isset($detailsInfo['Kvadratura'])) {
